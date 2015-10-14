@@ -1,0 +1,3 @@
+"/Users/falko/Documents/Appcelerator_Studio_Workspace/falkolab_callog/android/build/generated/java/com/falkolab/callog/FalkolabCallogBootstrap.java"
+"/Users/falko/Documents/Appcelerator_Studio_Workspace/falkolab_callog/android/src/com/falkolab/callog/ExampleProxy.java"
+"/Users/falko/Documents/Appcelerator_Studio_Workspace/falkolab_callog/android/src/com/falkolab/callog/FalkolabCallogModule.java"
