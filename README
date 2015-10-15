@@ -1,106 +1,39 @@
-Call logs android module for Titanium SDK
-===========================================
+# Call log android module for Titanium SDK
 
-This is a skeleton Titanium Mobile Mobile module project.
+Read the docs [here](android/documentation/index.md)
 
+## Description
 
-MODULE NAMING
--------------
+Module for quering phone call log.
 
-Choose a unique module id for your module.  This ID usually follows a namespace
-convention using DNS notation.  For example, com.appcelerator.module.test.  This
-ID can only be used once by all public modules in Titanium.
+## Author
 
+**Andrey Tkachenko**  
 
-GET STARTED
-------------
+email: falko.lab@gmail.com
 
-1. Edit manifest with the appropriate details about your module.
-2. Edit LICENSE to add your license details.
-3. Place any assets (such as PNG files) that are required anywhere in the module folder.
-4. Edit the timodule.json and configure desired settings.
-5. Code and build.
+twitter: @FalkoLab
 
+## License
 
-DOCUMENTATION FOR YOUR MODULE
------------------------------
+The MIT License (MIT)
 
-You should provide at least minimal documentation for your module in `documentation` folder using the Markdown syntax.
+Copyright (c) 2015 Andrey Tkachenko
 
-For more information on the Markdown syntax, refer to this documentation at:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-<http://daringfireball.net/projects/markdown/>
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-
-TEST HARNESS EXAMPLE FOR YOUR MODULE
-------------------------------------
-
-The `example` directory contains a skeleton application test harness that can be
-used for testing and providing an example of usage to the users of your module.
-
-
-BUILDING YOUR MODULE
---------------------
-
-Simply run `titanium build --platform <name of platform> --build-type production --dir /path/to/module`.
-You can omit the --dir option if your working directory is in the module's project directory.
-
-
-INSTALL YOUR MODULE
--------------------
-
-Mac OS X
---------
-Copy the distribution zip file into the `~/Library/Application Support/Titanium` folder
-
-Linux
------
-Copy the distribution zip file into the `~/.titanium` folder
-
-Windows
--------
-Copy the distribution zip file into the `C:\ProgramData\Titanium` folder
-
-
-REGISTER YOUR MODULE
---------------------
-
-Register your module with your application by editing `tiapp.xml` and adding your module.
-Example:
-
-<modules>
-	<module version="0.1">com.falkolab.callog</module>
-</modules>
-
-When you run your project, the compiler will combine your module along with its dependencies
-and assets into the application.
-
-
-USING YOUR MODULE IN CODE
--------------------------
-
-To use your module in code, you will need to require it.
-
-For example,
-
-	var my_module = require('com.falkolab.callog');
-	my_module.foo();
-
-
-TESTING YOUR MODULE
--------------------
-
-To test with the script, execute from project root:
-
-	ti build -d ./android/ -p android -C "Google Nexus 4 - 4.2.2 - API 17 - 768x1280"
-
-This will execute the app.js in the example folder as a Titanium application.
-
-
-DISTRIBUTING YOUR MODULE
--------------------------
-
-You can choose to manually distribute your module distribution zip file or through the Titanium Marketplace!
-
-
-Cheers!
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
