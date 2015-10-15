@@ -1,1 +1,2 @@
+-- 1.0.1 Docs and example updated. Changed minsdk version.
 -- 1.0 initial

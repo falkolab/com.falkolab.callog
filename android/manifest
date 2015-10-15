@@ -2,10 +2,10 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.0
+version: 1.0.1
 apiversion: 2
 architectures: armeabi armeabi-v7a x86
-description: Recent Calls module for Android
+description: Recent Calls Android module for Titanium SDK
 author: Andrey Tkachenko
 license: The MIT License (MIT)
 copyright: Copyright (c) 2015 Andrey Tkachenko aka FalkoLab
@@ -15,4 +15,4 @@ name: falkolab_callog
 moduleid: com.falkolab.callog
 guid: f03730fc-a007-4325-ae40-d4e52b37c0eb
 platform: android
-minsdk: 5.0.2.GA
+minsdk: 5.0.0.GA
