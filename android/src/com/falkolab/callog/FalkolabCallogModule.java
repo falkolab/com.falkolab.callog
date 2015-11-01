@@ -10,19 +10,28 @@ package com.falkolab.callog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
-import org.appcelerator.kroll.common.TiConfig;
+import org.appcelerator.kroll.common.Log;
 import org.appcelerator.titanium.TiApplication;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.CallLog;
+import android.provider.ContactsContract.PhoneLookup;
 
 @Kroll.module(name = "FalkolabCallog", id = "com.falkolab.callog")
 public class FalkolabCallogModule extends KrollModule {
+	@Kroll.constant
+	public static final String _ID = CallLog.Calls._ID;
 	@Kroll.constant
 	public static final int INCOMING_TYPE = CallLog.Calls.INCOMING_TYPE;
 	@Kroll.constant
@@ -31,7 +40,6 @@ public class FalkolabCallogModule extends KrollModule {
 	public static final int MISSED_TYPE = CallLog.Calls.MISSED_TYPE;
 	@Kroll.constant
 	public static final int VOICEMAIL_TYPE = CallLog.Calls.VOICEMAIL_TYPE;
-
 	@Kroll.constant
 	public static final String CACHED_LOOKUP_URI = CallLog.Calls.CACHED_LOOKUP_URI;
 	@Kroll.constant
@@ -70,7 +78,6 @@ public class FalkolabCallogModule extends KrollModule {
 	public static final int FEATURES_VIDEO = CallLog.Calls.FEATURES_VIDEO;
 	@Kroll.constant
 	public static final String GEOCODED_LOCATION = CallLog.Calls.GEOCODED_LOCATION;
-
 	@Kroll.constant
 	public static final String IS_READ = CallLog.Calls.IS_READ;
 	@Kroll.constant
@@ -102,17 +109,49 @@ public class FalkolabCallogModule extends KrollModule {
 	public static final String TYPE = CallLog.Calls.TYPE;
 	@Kroll.constant
 	public static final String VOICEMAIL_URI = CallLog.Calls.VOICEMAIL_URI;
-
+	
 	// Standard Debugging variables
-	private static final String LCAT = "FalkolabCallogModule";
-	private static final boolean DBG = TiConfig.LOGD;
+	private static final String TAG = "FalkolabCallogModule";
+	//private static final boolean DBG = TiConfig.LOGD;
+
+	public boolean hasContactsPermissions() {
+		if (Build.VERSION.SDK_INT < 23) {
+			return true;
+		}
+		Activity currentActivity = TiApplication.getAppCurrentActivity();
+		if (currentActivity != null
+				&& currentActivity
+						.checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+			return true;
+		}
+		Log.w(TAG, "Contact permissions are missing");
+		return false;
+	}
 
 	@Kroll.method
 	public Object[] query(String[] projection, String selection,
-			String[] selectionArgs, String sortOrder) {		
-		Uri allCalls = Uri.parse("content://call_log/calls");
-		TiApplication tiApp = TiApplication.getInstance();
-		Cursor cursor = tiApp.getContentResolver().query(allCalls, projection,
+			String[] selectionArgs, String sortOrder) {
+		if (!hasContactsPermissions()) {
+			Log.e(TAG, "Contacts permissions missing");
+			return null;
+		}
+
+		if (TiApplication.getInstance() == null) {
+			Log.e(TAG, "Failed to call query(), application is null",
+					Log.DEBUG_MODE);
+			return null;
+		}
+
+		Activity activity = TiApplication.getInstance()
+				.getRootOrCurrentActivity();
+		if (activity == null) {
+			Log.e(TAG, "Failed to call query(), activity is null",
+					Log.DEBUG_MODE);
+			return null;
+		}
+
+		Cursor cursor = activity.getContentResolver().query(
+				android.provider.CallLog.Calls.CONTENT_URI, projection,
 				selection, selectionArgs, sortOrder);
 
 		ArrayList<Map<String, String>> data = new ArrayList<Map<String, String>>();
@@ -132,9 +171,58 @@ public class FalkolabCallogModule extends KrollModule {
 
 		return data.toArray(new Object[data.size()]);
 	}
-	
+
+	@Kroll.method
+	public Integer[] getContactsIDByNumber(String number) {
+
+		if (!hasContactsPermissions()) {
+			Log.e(TAG, "Contacts permissions missing");
+			return null;
+		}
+
+		if (TiApplication.getInstance() == null) {
+			Log.e(TAG, "Failed to call query(), application is null",
+					Log.DEBUG_MODE);
+			return null;
+		}
+
+		Activity activity = TiApplication.getInstance()
+				.getRootOrCurrentActivity();
+		if (activity == null) {
+			Log.e(TAG, "Failed to call query(), activity is null",
+					Log.DEBUG_MODE);
+			return null;
+		}
+
+		//String contactNumber = Uri.encode(number);
+		Set<Integer> contactIdList = new LinkedHashSet<Integer>();
+		if (number != null) {
+			Cursor contactLookupCursor = activity.getContentResolver().query(
+					Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number)),
+					new String[] { PhoneLookup._ID }, 
+					null,
+	                null, 
+	                null);
+			
+			if (contactLookupCursor != null) {
+				while (contactLookupCursor.moveToNext()) {
+					int phoneContactID = contactLookupCursor
+							.getInt(contactLookupCursor
+									.getColumnIndexOrThrow(PhoneLookup._ID));
+					if (phoneContactID > 0) {
+						contactIdList.add(phoneContactID);
+					}
+				}
+			}
+			contactLookupCursor.close();
+		}
+
+		return contactIdList.toArray(new Integer[contactIdList.size()]);
+	}
+
 	/**
-	 * Query the call log database for the last dialed number. 
+	 * Query the call log database for the last dialed number.
+	 * 
 	 * @return
 	 */
 	@Kroll.method

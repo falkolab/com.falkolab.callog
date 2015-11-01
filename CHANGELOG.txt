@@ -1,2 +1,6 @@
+-- 1.0.2
+	* Docs and example updated. 
+	* new method getContactsIDByNumber
+	
 -- 1.0.1 Docs and example updated. Changed minsdk version.
 -- 1.0 initial
