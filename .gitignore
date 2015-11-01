@@ -1,0 +1,9 @@
+.project
+.classpath
+.settings/*
+.DS_Store
+build.properties
+android/build
+android/libs/
+bin/*
+dist/*
