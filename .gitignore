@@ -6,4 +6,4 @@ build.properties
 android/build
 android/libs/
 bin/*
-dist/*
+android/dist/
